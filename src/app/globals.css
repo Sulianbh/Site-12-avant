@@ -1,0 +1,302 @@
+/*
+ * PASUPA — le site AVANT (version 12).
+ *
+ * Ce fichier est le « avant » d'une démonstration avant/après, et il est
+ * laid volontairement. Il vaut donc la peine de dire de quelle laideur
+ * il s'agit, parce qu'il y en a deux sortes et qu'une seule est utile.
+ *
+ * La laideur sabotée — texte qui se chevauche, liens invisibles — fait
+ * un contraste spectaculaire et une démonstration nulle : le client voit
+ * une caricature fabriquée et n'y reconnaît pas son propre site.
+ *
+ * Celle-ci est l'autre. C'est le site fait une fois, par quelqu'un de
+ * consciencieux, en 1999, et jamais repris depuis. Rien n'y est cassé :
+ * tout se lit, tout se clique, tout fonctionne. C'est simplement qu'aucun
+ * choix n'y a été fait deux fois. La largeur est fixe parce qu'à l'époque
+ * les écrans l'étaient ; la mise en page est un tableau parce que c'était
+ * le seul moyen ; les images ont des dimensions écrites en dur dans le
+ * balisage parce que c'était la recommandation. Chacune de ces décisions
+ * était juste, et pas une n'a été rouverte en vingt-cinq ans.
+ *
+ * C'est ce site-là que le client a. C'est pour ça qu'il se reconnaîtra.
+ */
+
+/* ------------------------------------------------------------------ */
+/*  Le corps                                                           */
+/* ------------------------------------------------------------------ */
+
+body {
+  /* Times New Roman, parce que c'était la valeur par défaut et que
+     personne n'a jamais eu de raison d'en changer. */
+  font-family: "Times New Roman", Times, serif;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #000000;
+  background: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * La largeur fixe.
+ *
+ * 760 px : la largeur utile d'un écran de 800 × 600, moins la barre de
+ * défilement. C'était le bon chiffre. Il l'est resté jusqu'à ce que les
+ * téléphones arrivent, et il ne l'est plus depuis — mais rien dans le
+ * site ne le signale, alors il n'a pas bougé. Sur un téléphone, la page
+ * déborde et il faut la pousser du doigt pour lire la fin des lignes.
+ */
+.page {
+  width: 760px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/*  L'en-tête                                                          */
+/* ------------------------------------------------------------------ */
+
+.bandeau {
+  text-align: center;
+  padding: 10px 0 4px 0;
+  border-bottom: 1px solid #000000;
+}
+
+.bandeau h1 {
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.bandeau .devise {
+  font-size: 11px;
+  font-style: italic;
+  margin: 2px 0 6px 0;
+}
+
+/*
+ * La navigation : des liens séparés par des barres verticales.
+ *
+ * Rien n'indique où l'on se trouve. C'est le défaut le plus coûteux de
+ * la page et le moins visible : le visiteur sait toujours ce qu'il peut
+ * atteindre, jamais où il est.
+ */
+.menu {
+  text-align: center;
+  padding: 5px 0;
+  font-size: 12px;
+}
+
+.menu a {
+  color: #000000;
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Les titres                                                         */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Trois tailles pour cinq niveaux, et pas de rapport constant entre
+ * elles. Chacune a été choisie le jour où la page a été écrite, en
+ * regardant le résultat, sans jamais comparer d'une page à l'autre.
+ */
+h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 14px 0 4px 0;
+  text-align: center;
+  text-decoration: underline;
+}
+
+h3 {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 10px 0 2px 0;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Le texte                                                           */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Justifié, sans césure, dans une colonne de 740 px : Times à 13 px y
+ * tient plus de cent dix caractères par ligne, et le justificatif ouvre
+ * des rivières de blanc au milieu des paragraphes. L'œil perd sa ligne
+ * à chaque retour.
+ */
+p {
+  text-align: justify;
+  margin: 0 0 9px 0;
+}
+
+a {
+  color: #000000;
+  text-decoration: underline;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #000000;
+  margin: 8px 0;
+}
+
+.petit {
+  font-size: 11px;
+}
+
+.centre {
+  text-align: center;
+}
+
+/* Le gras, l'italique et les majuscules employés comme hiérarchie, à
+   défaut d'en avoir une. */
+.important {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.nouveau {
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Les tableaux de mise en page                                       */
+/* ------------------------------------------------------------------ */
+
+/*
+ * La mise en page est un tableau, comme tout le monde le faisait. Le
+ * lecteur d'écran, lui, la lit comme un tableau de données et annonce
+ * « tableau, deux colonnes » avant chaque paragraphe.
+ */
+table.mise {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.mise > tbody > tr > td {
+  vertical-align: top;
+  padding: 6px;
+}
+
+td.colonne-etroite {
+  width: 170px;
+  border-right: 1px solid #000000;
+}
+
+/* Le tableau de données, lui, n'a pas de style du tout : bordures par
+   défaut, colonnes qui se calent sur le plus long mot. */
+table.donnees {
+  border-collapse: collapse;
+  margin: 4px 0 10px 0;
+  font-size: 12px;
+}
+
+table.donnees td,
+table.donnees th {
+  border: 1px solid #000000;
+  padding: 2px 5px;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Les images                                                         */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Les dimensions sont écrites en dur, 160 × 120, sur des dessins tracés
+ * en 400 × 250. Le rapport n'y est pas : tout est écrasé en hauteur.
+ * C'était la bonne pratique — donner ses dimensions à l'image pour que
+ * la page ne saute pas au chargement — appliquée sans regarder si les
+ * chiffres correspondaient à quoi que ce soit.
+ *
+ * Aucune légende, aucun titre, aucun texte de remplacement utile : six
+ * vignettes en vrac, et il faut cliquer pour savoir ce qu'on regarde.
+ */
+.vignette {
+  width: 160px;
+  height: 120px;
+  border: 1px solid #000000;
+  display: block;
+}
+
+.vignette-grande {
+  width: 400px;
+  height: 200px;
+  border: 1px solid #000000;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Le dessin en noir et blanc. Les trois valeurs de trait de la version
+   finie sont ramenées à deux, et la distinction existant / déposé /
+   projeté — l'information principale d'un plan d'architecte — cesse
+   d'être lisible. */
+.plan {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.projete {
+  stroke: #000000;
+  fill: none;
+  stroke-width: 1.9;
+}
+
+.projete-plein {
+  fill: #000000;
+  stroke: none;
+}
+
+.existant {
+  stroke: #000000;
+  fill: none;
+  stroke-width: 1;
+}
+
+.existant-plein {
+  fill: #000000;
+  stroke: none;
+  opacity: 0.15;
+}
+
+.depose {
+  stroke: #000000;
+  fill: none;
+  stroke-width: 0.9;
+  stroke-dasharray: 4 3;
+}
+
+.cote-dessin {
+  stroke: #000000;
+  fill: none;
+  stroke-width: 0.6;
+}
+
+.texte-dessin {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 7px;
+  fill: #000000;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Le pied de page                                                    */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Il n'y a pas de page « contact » : les coordonnées sont ici, en petit,
+ * au bas de chaque page, mêlées au compteur et à la date de mise à jour.
+ * C'est l'information que le visiteur cherche le plus souvent, et elle
+ * est rangée avec celle qu'il ne cherche jamais.
+ */
+.pied {
+  border-top: 1px solid #000000;
+  margin-top: 10px;
+  padding: 6px 0 20px 0;
+  text-align: center;
+  font-size: 11px;
+}
