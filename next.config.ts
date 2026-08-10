@@ -1,63 +1,36 @@
 import type { NextConfig } from "next";
 
-const isDev = process.env.NODE_ENV === "development";
-
 /**
  * Ce site est le « avant » d'une démonstration avant/après. Il est laid
  * exprès, et il l'est de la façon dont les sites le sont vraiment : pas
  * par sabotage, mais par accumulation de choix jamais repris.
  *
- * Ce qui suit, en revanche, n'est pas laid. Un en-tête de sécurité ne se
- * voit pas dans la page, donc le laisser tomber n'ajouterait rien à la
- * démonstration et mettrait en ligne un site moins sûr que nécessaire.
- * La laideur est dans ce que le visiteur voit, nulle part ailleurs.
+ * ------------------------------------------------------------------
+ * Pourquoi un export statique, alors que les treize autres sites de la
+ * série tournent sur le runtime Next de Netlify
+ * ------------------------------------------------------------------
+ *
+ * Parce que le compte Netlify n'a plus de crédits de construction : une
+ * construction lancée sur leur infrastructure est refusée avec
+ * « Skipped due to account credit usage exceeded », et le déploiement
+ * échoue avant d'avoir commencé.
+ *
+ * `output: "export"` déplace la construction ici : `next build` écrit un
+ * dossier `out/` de fichiers plats, qu'on téléverse tel quel sans qu'une
+ * seule minute de construction soit consommée chez l'hébergeur. Le site
+ * s'y prête entièrement — toutes ses routes sont statiques, il n'a ni
+ * fonction, ni image optimisée, ni rendu à la demande.
+ *
+ * La contrepartie, et elle compte : **un export statique ignore
+ * `headers()`**. Les en-têtes ne sont donc plus déclarés ici mais dans
+ * `public/_headers`, qui devient leur source unique. Les répéter aux
+ * deux endroits créerait deux vérités qui finiraient par diverger — et
+ * celle d'ici ne serait jamais appliquée, donc jamais démentie.
  */
-const csp = [
-  "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data:",
-  "font-src 'self'",
-  "connect-src 'self'" + (isDev ? " ws: wss:" : ""),
-  "frame-ancestors 'self'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "object-src 'none'",
-].join("; ");
-
 const nextConfig: NextConfig = {
+  output: "export",
   poweredByHeader: false,
   reactStrictMode: true,
-
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          { key: "Content-Security-Policy", value: csp },
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "X-Frame-Options", value: "SAMEORIGIN" },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
-          },
-          /*
-           * Sans condition, et sans variable pour le lever.
-           *
-           * Sur les sites finis, `NEXT_PUBLIC_INDEXABLE` existe parce
-           * qu'un jour le gabarit portera le nom d'une agence réelle.
-           * Ici, non : il n'y a aucune circonstance où l'on veuille
-           * qu'une page volontairement ratée, portant le nom PASUPA,
-           * remonte dans un moteur de recherche. Le réglage n'existe
-           * donc pas, plutôt que d'exister et de pouvoir être basculé
-           * par distraction.
-           */
-          { key: "X-Robots-Tag", value: "noindex, nofollow" },
-        ],
-      },
-    ];
-  },
 };
 
 export default nextConfig;
