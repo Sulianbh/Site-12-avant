@@ -28,6 +28,28 @@ export default function RacineAvant({
 }) {
   return (
     <html lang="fr">
+      <head>
+      {/*
+        Le `noindex`, en balise et non en en-tête.
+
+        Sur Netlify il venait de `public/_headers`. GitHub Pages ne
+        connaît pas ce fichier : il sert des fichiers plats et rien
+        d'autre, sans moyen d'ajouter le moindre en-tête. Or
+        `sulianbh.github.io` est un domaine réel et indexable.
+
+        La balise fait le même travail pour ce qui compte ici — un robot
+        qui charge la page la lit et n'indexe pas. Ce qu'elle ne fait
+        pas, et qu'il faut savoir : elle ne protège pas les fichiers qui
+        ne sont pas du HTML, et elle n'apporte évidemment aucune des
+        protections de la politique de sécurité du contenu, qui est
+        perdue elle aussi sur cet hébergeur. Pour un site de
+        démonstration entièrement statique, sans formulaire qui
+        transmette quoi que ce soit et sans une seule ressource tierce,
+        c'est une perte acceptable — mais c'en est une, et elle est
+        écrite ici pour qu'on ne la découvre pas plus tard.
+      */}
+      <meta name="robots" content="noindex, nofollow" />
+      </head>
       <body>
         <div className="page">
           <div className="bandeau">

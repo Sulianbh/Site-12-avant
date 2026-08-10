@@ -27,8 +27,27 @@ import type { NextConfig } from "next";
  * deux endroits créerait deux vérités qui finiraient par diverger — et
  * celle d'ici ne serait jamais appliquée, donc jamais démentie.
  */
+
+/**
+ * Le chemin de base.
+ *
+ * GitHub Pages sert un site de projet sous le nom du dépôt —
+ * `https://sulianbh.github.io/Site-12-avant/` et non à la racine d'un
+ * domaine. Sans `basePath`, chaque lien et chaque feuille de style
+ * pointerait vers `/`, c'est-à-dire vers la page d'accueil de
+ * `sulianbh.github.io` : le site se chargerait sans style et aucune
+ * navigation ne fonctionnerait.
+ *
+ * La variable n'est posée que par la construction d'intégration, à
+ * partir du nom du dépôt. En local elle est vide, le site est servi à la
+ * racine, et `npm start` marche comme avant.
+ */
+const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 const nextConfig: NextConfig = {
   output: "export",
+  basePath: base,
+  assetPrefix: base || undefined,
   poweredByHeader: false,
   reactStrictMode: true,
 };

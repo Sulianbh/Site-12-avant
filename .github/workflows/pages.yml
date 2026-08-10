@@ -1,0 +1,78 @@
+# Construire et publier sur GitHub Pages, à chaque poussée sur main.
+#
+# La construction se fait ici et non chez l'hébergeur : GitHub Pages ne
+# sait que servir des fichiers. C'est exactement ce que le site produit
+# — `output: "export"` écrit un dossier `out/` de HTML, de CSS et de SVG,
+# sans une seule fonction.
+#
+# `NEXT_PUBLIC_BASE_PATH` est déduite du nom du dépôt. Un site de projet
+# est servi sous ce nom, pas à la racine du domaine : sans ce préfixe,
+# les liens et les feuilles de style pointeraient vers la racine de
+# sulianbh.github.io et rien ne fonctionnerait.
+
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Une publication à la fois, et on n'annule pas celle qui est en cours :
+# une interruption en plein déploiement laisse le site à moitié écrit.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Installer
+        run: npm ci
+
+      - name: Vérifier
+        run: npm run lint
+
+      # `enablement: true` active Pages sur le dépôt si ce n'est pas
+      # déjà fait : rien à cocher dans les réglages.
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Construire
+        run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+
+      # Jekyll ignore les dossiers commençant par un souligné, et tout
+      # ce que Next produit vit dans `_next`. Le dépôt d'artefact ne
+      # passe pas par Jekyll, mais le fichier ne coûte rien et protège
+      # d'une bascule vers la publication par branche.
+      - name: Neutraliser Jekyll
+        run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  publier:
+    needs: construire
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publication.outputs.page_url }}
+    steps:
+      - id: publication
+        uses: actions/deploy-pages@v4
