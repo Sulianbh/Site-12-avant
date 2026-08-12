@@ -7,10 +7,10 @@ import type { NextConfig } from "next";
  *
  * ------------------------------------------------------------------
  * Pourquoi un export statique, alors que les treize autres sites de la
- * série tournent sur le runtime Next de Netlify
+ * série tournaient sur le runtime Next de Netlify
  * ------------------------------------------------------------------
  *
- * Parce que le compte Netlify n'a plus de crédits de construction : une
+ * Parce que le compte Netlify n'avait plus de crédits de construction : une
  * construction lancée sur leur infrastructure est refusée avec
  * « Skipped due to account credit usage exceeded », et le déploiement
  * échoue avant d'avoir commencé.
@@ -22,10 +22,16 @@ import type { NextConfig } from "next";
  * fonction, ni image optimisée, ni rendu à la demande.
  *
  * La contrepartie, et elle compte : **un export statique ignore
- * `headers()`**. Les en-têtes ne sont donc plus déclarés ici mais dans
- * `public/_headers`, qui devient leur source unique. Les répéter aux
- * deux endroits créerait deux vérités qui finiraient par diverger — et
- * celle d'ici ne serait jamais appliquée, donc jamais démentie.
+ * `headers()`**, et GitHub Pages n'offre aucun moyen d'en poser. Il n'y
+ * a donc pas d'en-têtes sur ce site — ni politique de sécurité du
+ * contenu, ni `X-Robots-Tag`. C'est le prix du gratuit.
+ *
+ * Un fichier `public/_headers` a existé ici, hérité de Netlify. Il a
+ * été retiré : Pages le publiait tel quel, publiquement lisible, sans
+ * jamais le lire — un fichier qui se disait « source unique » des
+ * en-têtes alors qu'aucun n'était servi. Le `noindex`, seule de ces
+ * consignes qui compte vraiment, est déclaré en balise dans la mise en
+ * page racine, où il voyage dans le HTML.
  */
 
 /**
